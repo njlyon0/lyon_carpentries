@@ -8,4 +8,4 @@ Additionally, I think there may be some follow-along coding in the training and 
 
 For more information on Instructor Training preparation and checkout, see [here](https://carpentries.github.io/instructor-training/setup.html)
 
-The episode I selected to teach a short intro on was "[Data Analysis and Visualization in R for Ecologists](https://datacarpentry.org/R-ecology-lesson/index.html)". The lesson's GitHub repository is linked [here](https://github.com/datacarpentry/R-ecology-lesson)
+The lesson I selected to teach a short intro on was "[Data Analysis and Visualization in R for Ecologists](https://datacarpentry.org/R-ecology-lesson/index.html)". The lesson's GitHub repository is linked [here](https://github.com/datacarpentry/R-ecology-lesson)
