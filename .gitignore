@@ -41,3 +41,7 @@ vignettes/*.pdf
 # Project
 *.Rproj
 
+# Rendered Quarto documents
+*.html
+*.pdf
+
