@@ -1,0 +1,145 @@
+---
+title: "Lyon Training Code"
+author: "Nick J Lyon"
+format: pdf
+editor: visual
+---
+
+# Overview of "Data Analysis and Visualization in R for Ecologists"
+
+The following document is an overview of a Carpentries workshop on data analysis and visualization (linked [here](datacarpentry.org/R-ecology-lesson/index.html)) using the `tidyverse` packages (primarily `dplyr`, `tidyr`, and--via the 'pipe' function--`magrittr`)
+
+## Loading Necessary Tools and Data
+
+If you have not already done so, you will need to install the `tidyverse` package. Note that this is really a suite of related packages that are inter-related and that we will only use a few functions from some of those packages.
+
+```{r, eval = FALSE}
+install.packages("tidyverse")
+```
+
+Once you have installed this package, you need to load it to be able to use its functions later.
+
+```{r, message = FALSE}
+library(tidyverse)
+```
+
+We will also need to use a dataset to demonstrate some of these tools so we can load the `iris` datasdet built into R.
+
+## Fundamentals of R
+
+Sometimes the best place to start is by identifying what you should do when you get stuck. In R there are two primary strategies for troubleshooting your code, one takes place within R (or RStudio if you're using it) and the other only needs a web browser
+
+### Getting Help
+
+#### Strategy 1
+
+**A question mark (`?`) before a function in R will open the help file of the function** (in the "Help" pane if you're in RStudio). It is often also helpful to specify which package the function you're using came from by using the format `?package::function`.
+
+This allows you to look at what the function expects and double check that you are providing what you meant to provide.
+
+#### Strategy 2
+
+This may sound insincere but **copying your error message into Google** can be really helpful in solving coding challenges in R. It is likely that others have encountered the same issue and posted it to [Stack Overflow](https://stackoverflow.com/) or a similar forum. Though the answers on there can be a little snarky sometimes, they are almost always helpful!
+
+### Core R Operations
+
+R lets you assign "**objects**" using the `<-` operator. These are essentially aliases for things that you want to pass into functions (or save when output by functions)
+
+```{r}
+x <- 2
+x
+```
+
+You can combine multiple elements into a `vector` using a lowercase "c"
+
+```{r}
+y <- c(1, 2, 4, 10)
+y
+```
+
+Within a dataframe, R lets you specify what you want by using the number of the row and/or column that you want. To get the contents of the *first* row and *fourth* column of the `iris` data we can use the following:
+
+```{r}
+iris[1, 4]
+```
+
+For a more complete preview of a dataframe, `head()` is one way of taking a quick look at the first *six* rows of  **all** columns in a dataframe
+
+```{r}
+head(iris)
+```
+
+## `tidyverse` - Data Wrangling
+
+Below is a list of core `tidyverse` functions with a short description of their purpose. Recall that in the `::` notation the **package name is on the left** and the **function name is on the right**
+
+- `dplyr::select()`: Choose which columns to include or exclude by their name (rather than the bracket/number method above)
+
+```{r}
+head(dplyr::select(.data = iris, Sepal.Length))
+```
+
+- `dplyr::filter()`: Subset a dataframe to only those rows that meet a given condition
+
+```{r}
+sub <- dplyr::filter(.data = iris, Species == "setosa")
+
+# Can check by looking at the number of rows of the full dataframe versus the number of rows of the subsetted dataframe
+nrow(iris)
+nrow(sub)
+```
+
+- `dplyr::mutate()`: Creates new columns in a dataframe
+
+```{r}
+petals <- dplyr::mutate(.data = iris, Petal.Area = (Petal.Length * Petal.Width) )
+head(dplyr::select(.data = petals, dplyr::starts_with("Petal.")))
+```
+
+- `magrittr` has a "pipe" function (`%>%`) for chaining together multiple other functions without needing to create a new object for each operation.
+
+```{r}
+iris %>%
+  dplyr::filter(Species == "setosa") %>%
+  dplyr::mutate(Petal.Area = (Petal.Length * Petal.Width) ) %>%
+  dplyr::select(dplyr::starts_with("Petal.")) %>%
+  head()
+```
+
+- `dplyr::group_by()` can be used with `dplyr::summarise()` to gather summary statistics within groups
+    - **WARNING**: `summarise()` drops all columns that are not specified
+    - *NOTE*: the American English `dplyr::summarize()` also works if you prefer
+
+```{r}
+iris %>%
+  dplyr::group_by(Species) %>%
+  dplyr::summarise(Mean.Petal.Length = mean(x = Petal.Length))
+```
+
+## `tidyverse` - Data Reshaping
+
+Data can be either in "wide" or in "long" format. In wide format, there are more columns than there are rows while in long format the opposite is true. The `tidyr` package provides one function for reshaping data in either direction.
+
+- `tidyr::pivot_longer()`: Rotate a wide dataframe into long format
+
+```{r}
+iris %>%
+  tidyr::pivot_longer(cols = -Species,
+                      names_to = "Iris.Metric",
+                      values_to = "Measurement") %>%
+  head()
+```
+
+- `tidyr::pivot_wider()`: Rotate a long dataframe into wide format
+
+```{r}
+iris %>%
+  dplyr::group_by(Species) %>%
+  dplyr::summarise(Mean.Petal.Length = mean(x = Petal.Length)) %>%
+  tidyr::pivot_wider(names_from = Species,
+                     values_from = Mean.Petal.Length)
+```
+
+## `tidyverse` - Visualizing
+
+Plotting data in the `tidyverse` is done almost entirely with the `ggplot2` package. In the interest of time, we won't review that here but you can check out instruction from the Carpentries on `ggplot2` visualization [here](https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html)
