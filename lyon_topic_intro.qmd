@@ -5,9 +5,9 @@ format: pdf
 editor: visual
 ---
 
-# Overview of "Data Analysis and Visualization in R for Ecologists"
+# Manipulating, Analyzing and Exporting Data with `tidyverse`
 
-The following document is an overview of a Carpentries workshop on data analysis and visualization (linked [here](datacarpentry.org/R-ecology-lesson/index.html)) using the `tidyverse` packages (primarily `dplyr`, `tidyr`, and--via the 'pipe' function--`magrittr`)
+This episode is taken from the larger Carpentries lesson: "[Data Analysis and Visualization in R for Ecologists](https://datacarpentry.org/R-ecology-lesson/index.html)"
 
 ## Loading Necessary Tools and Data
 
@@ -24,50 +24,6 @@ library(tidyverse)
 ```
 
 We will also need to use a dataset to demonstrate some of these tools so we can load the `iris` datasdet built into R.
-
-## Fundamentals of R
-
-Sometimes the best place to start is by identifying what you should do when you get stuck. In R there are two primary strategies for troubleshooting your code, one takes place within R (or RStudio if you're using it) and the other only needs a web browser
-
-### Getting Help
-
-#### Strategy 1
-
-**A question mark (`?`) before a function in R will open the help file of the function** (in the "Help" pane if you're in RStudio). It is often also helpful to specify which package the function you're using came from by using the format `?package::function`.
-
-This allows you to look at what the function expects and double check that you are providing what you meant to provide.
-
-#### Strategy 2
-
-This may sound insincere but **copying your error message into Google** can be really helpful in solving coding challenges in R. It is likely that others have encountered the same issue and posted it to [Stack Overflow](https://stackoverflow.com/) or a similar forum. Though the answers on there can be a little snarky sometimes, they are almost always helpful!
-
-### Core R Operations
-
-R lets you assign "**objects**" using the `<-` operator. These are essentially aliases for things that you want to pass into functions (or save when output by functions)
-
-```{r}
-x <- 2
-x
-```
-
-You can combine multiple elements into a `vector` using a lowercase "c"
-
-```{r}
-y <- c(1, 2, 4, 10)
-y
-```
-
-Within a dataframe, R lets you specify what you want by using the number of the row and/or column that you want. To get the contents of the *first* row and *fourth* column of the `iris` data we can use the following:
-
-```{r}
-iris[1, 4]
-```
-
-For a more complete preview of a dataframe, `head()` is one way of taking a quick look at the first *six* rows of  **all** columns in a dataframe
-
-```{r}
-head(iris)
-```
 
 ## `tidyverse` - Data Wrangling
 
@@ -133,13 +89,14 @@ iris %>%
 - `tidyr::pivot_wider()`: Rotate a long dataframe into wide format
 
 ```{r}
-iris %>%
+# Create a smaller dataframe to make the pivot easier to visualize
+iris_summary <- iris %>%
   dplyr::group_by(Species) %>%
-  dplyr::summarise(Mean.Petal.Length = mean(x = Petal.Length)) %>%
+  dplyr::summarise(Mean.Petal.Length = mean(x = Petal.Length))
+
+head(iris_summary)
+
+iris_summary %>%
   tidyr::pivot_wider(names_from = Species,
                      values_from = Mean.Petal.Length)
 ```
-
-## `tidyverse` - Visualizing
-
-Plotting data in the `tidyverse` is done almost entirely with the `ggplot2` package. In the interest of time, we won't review that here but you can check out instruction from the Carpentries on `ggplot2` visualization [here](https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html)
