@@ -29,13 +29,13 @@ We will also need to use a dataset to demonstrate some of these tools so we can 
 
 Below is a list of core `tidyverse` functions with a short description of their purpose. Recall that in the `::` notation the **package name is on the left** and the **function name is on the right**
 
-- `dplyr::select()`: Choose which columns to include or exclude by their name (rather than the bracket/number method above)
+-   `dplyr::select()`: Choose which columns to include or exclude by their name (rather than the bracket/number method above)
 
 ```{r}
 head(dplyr::select(.data = iris, Sepal.Length))
 ```
 
-- `dplyr::filter()`: Subset a dataframe to only those rows that meet a given condition
+-   `dplyr::filter()`: Subset a dataframe to only those rows that meet a given condition
 
 ```{r}
 sub <- dplyr::filter(.data = iris, Species == "setosa")
@@ -45,14 +45,14 @@ nrow(iris)
 nrow(sub)
 ```
 
-- `dplyr::mutate()`: Creates new columns in a dataframe
+-   `dplyr::mutate()`: Creates new columns in a dataframe
 
 ```{r}
 petals <- dplyr::mutate(.data = iris, Petal.Area = (Petal.Length * Petal.Width) )
 head(dplyr::select(.data = petals, dplyr::starts_with("Petal.")))
 ```
 
-- `magrittr` has a "pipe" function (`%>%`) for chaining together multiple other functions without needing to create a new object for each operation.
+-   `magrittr` has a "pipe" function (`%>%`) for chaining together multiple other functions without needing to create a new object for each operation.
 
 ```{r}
 iris %>%
@@ -62,9 +62,9 @@ iris %>%
   head()
 ```
 
-- `dplyr::group_by()` can be used with `dplyr::summarise()` to gather summary statistics within groups
-    - **WARNING**: `summarise()` drops all columns that are not specified
-    - *NOTE*: the American English `dplyr::summarize()` also works if you prefer
+-   `dplyr::group_by()` can be used with `dplyr::summarise()` to gather summary statistics within groups
+    -   **WARNING**: `summarise()` drops all columns that are not specified
+    -   *NOTE*: the American English `dplyr::summarize()` also works if you prefer
 
 ```{r}
 iris %>%
@@ -76,7 +76,7 @@ iris %>%
 
 Data can be either in "wide" or in "long" format. In wide format, there are more columns than there are rows while in long format the opposite is true. The `tidyr` package provides one function for reshaping data in either direction.
 
-- `tidyr::pivot_longer()`: Rotate a wide dataframe into long format
+-   `tidyr::pivot_longer()`: Rotate a wide dataframe into long format
 
 ```{r}
 iris %>%
@@ -86,7 +86,7 @@ iris %>%
   head()
 ```
 
-- `tidyr::pivot_wider()`: Rotate a long dataframe into wide format
+-   `tidyr::pivot_wider()`: Rotate a long dataframe into wide format
 
 ```{r}
 # Create a smaller dataframe to make the pivot easier to visualize
