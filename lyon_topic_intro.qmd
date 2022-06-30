@@ -40,7 +40,8 @@ head(dplyr::select(.data = iris, Sepal.Length))
 ```{r}
 sub <- dplyr::filter(.data = iris, Species == "setosa")
 
-# Can check by looking at the number of rows of the full dataframe versus the number of rows of the subsetted dataframe
+# Can check by looking at the number of rows of the full dataframe
+## versus the number of rows of the subsetted dataframe
 nrow(iris)
 nrow(sub)
 ```
